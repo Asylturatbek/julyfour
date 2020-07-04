@@ -1,0 +1,21 @@
+{
+  "name": "grpc_auth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "auth.js",
+  "scripts": {
+    "start": "node auth.js",
+    "dev": "nodemon auth.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/proto-loader": "^0.5.4",
+    "bcrypt": "^5.0.0",
+    "dotenv": "^8.2.0",
+    "grpc": "^1.24.3",
+    "pg": "^8.2.1",
+    "uuid": "^8.2.0"
+  }
+}

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+service OperationService {
+	rpc AddConfig (AddConfigRequest) returns (Reply) {}
+	rpc UpdateConfig (UpdateConfigRequest) returns (Reply) {}
+}
+
+message Error {
+	string code = 1;
+	string data = 2;
+}
+
+message AddConfigRequest {
+	bool isGlobal = 1;
+	int32 userId = 2;
+	string configKey = 3;
+	string configValue = 4;
+}
+
+message Reply {
+	bool success = 1;
+	Error error = 2;
+}
+
+message UpdateConfigRequest {
+	int32 id = 1;
+	string configValue = 2;	
+}

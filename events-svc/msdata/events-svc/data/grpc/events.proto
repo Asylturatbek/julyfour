@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+service EventsService {
+	rpc ConfigChangeStatus (ConfigChangeStatusRequest) returns (Reply) {}
+	rpc Status (Empty) returns (stream StatusReply) {}
+}
+
+message Empty {}
+
+message StatusReply {
+	string message = 1;
+}
+
+message Error {
+	string code = 1;
+	string data = 2;
+}
+
+message ConfigChangeStatusRequest {
+	int32 userId = 1;
+	bool isGlobal = 2;
+}
+
+message Reply {
+	bool success = 1;
+	Error error = 2;
+}

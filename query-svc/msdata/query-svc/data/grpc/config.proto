@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+service ConfigService {
+	rpc ListConfigs (Empty) returns (ConfigsList) {} 
+}
+
+message Empty{}
+
+message Config {
+	int32 id = 1;
+	bool isGlobal = 2;
+	int32 userId = 3;
+	string configKey = 4;
+	string configValue = 5;
+}
+
+
+message ConfigsList {
+	repeated Config configs = 1;
+}
+

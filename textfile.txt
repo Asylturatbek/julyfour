@@ -1,0 +1,91 @@
+docker run -p 8000:8000 postgres
+docker run -v /opt/datadir:/var/lib/mysql mysql
+docker run -e APP_COLOR=blue simple-webapp-color
+docker run -v data_volume:/var/lib/mysql mysql
+
+docker network create \
+	--driver bridge \
+	--subnet 182.18.0.0/16
+	custom-isolated-network
+
+docker network ls
+docker volume create data_volume
+docker inspect blissful_hopper
+
+
+create table users (
+id bigserial,
+username varchar(200) not null,
+password varchar(200) not null,
+primary key (id)
+);
+
+create table categories (
+id serial,
+name varchar(200) not null,
+primary key (id)
+);
+
+create table products (
+id serial,
+name varchar (200) not null,
+categoryId int not null,
+primary key (id),
+foreign key (categoryId) references categories(id) on delete cascade
+);
+
+create table favorites (
+userId int not null,
+productId int not null,
+primary key (userId, productId),
+foreign key (userId) references users(id) on delete cascade,
+foreign key (productId) references products(id) on delete cascade
+);
+
+create table sessions (
+sessionid serial,
+userid int not null,
+sessionKey varchar (200) not null,
+createdDate timestamp with time zone default current_timestamp,
+primary key (sessionid),
+constraint fk_userid foreign key (userid) references users (id)
+);
+
+create table configs (
+id serial,
+isGlobal boolean not null,
+userid int,
+configkey varchar(200),
+configvalue varchar(200),
+primary key (id),
+constraint fk_userid foreign key (userid) references users (id)
+)
+
+
+INSERT INTO categories (name)
+VALUES
+('Computers'),
+('Mobile phones'),
+('Entertainment equipment'),
+('Cameras'),
+('Household furniture'),
+('Washing machines and dishwashers'),
+('Clothing'),
+('Sports equipment'),
+('Kitchen utensils – plates, pots and pans'),
+('Choice of restaurants'),
+('Hotels and airlines'),
+('Luggage'),
+('Getting a pet'),
+('Hairdresser and beautician'),
+('Car repairs'),
+('Plants for the yard'),
+('Perfumes and cosmetics'),
+('Running shoes'),
+('Everyday jewelry'),
+('Kid’s bicycles')
+
+
+sudo docker run -d --name auth_part -p 5000:5000 --network my-net --env-file ./.env asyl/auth-app2 
+sudo docker run -d --name store_part -p 4000:4000 --network my-net --env-file ./.env asyl/store-app
+sudo docker run -d --name personal-pg -p 5432:5432 --network my-net -v /opt/volumes/personal-pg:/var/lib/personal-pg postgres:10.4 
