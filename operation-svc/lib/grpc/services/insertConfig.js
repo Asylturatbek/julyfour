@@ -1,9 +1,9 @@
 const db = require('./../../dbConfig.js')
 const grpc = require('grpc')
-const {logger} = require('./../../winston.js')
+const log = require('./../../util-log.js')
 
 module.exports = async function(call, callback) {
-	logger.info('received request for insertConfig')
+	log.trace('received request for insertConfig')
 	try {
 			const {isGlobal, userId, configKey, configValue} = call.request
 			
@@ -16,6 +16,6 @@ module.exports = async function(call, callback) {
 
 	} catch(err) {
 		callback(new Error("Internal server error"));
-		logger.error('%o', err)
+		log.error('%o', err)
 	}
 }

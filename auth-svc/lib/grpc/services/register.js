@@ -1,9 +1,10 @@
 const db = require('./../../dbConfig.js')
 const bcrypt = require('bcrypt')
 const grpc = require('grpc')
+const log = require('./../../util-log.js')
 
 module.exports = async function(call, callback) {
-
+	log.trace('Incoming request for register')
 	const {username, password} = call.request
 
 	try {
@@ -18,12 +19,13 @@ module.exports = async function(call, callback) {
 		} else {
 			const hashedPassword = await bcrypt.hash(password, 10)
 			//db.insertUser
-			await db.insertUser(username, hashedPassword) 
+			await db.insertUser(username, hashedPassword)
+			log.trace('Successfully registered user with username ' + username) 
 			callback(null, {success:true, error:{code:null, data:null}})
 		}
 	} catch (err) {
 		callback(null, {success:false, error:{code:grpc.status.INTERNAL, data:'internal server error'}})
-		console.error(err)
+		log.error(err)
 	}
 
 }

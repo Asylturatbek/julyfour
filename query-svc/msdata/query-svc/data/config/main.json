@@ -1,0 +1,6 @@
+{
+  "logLevel": "trace",
+  "logMode": "console",
+  "fluentdServiceName": "query-svc",
+  "fluentdInstanceName": "1"
+}

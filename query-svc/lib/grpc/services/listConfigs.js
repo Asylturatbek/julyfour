@@ -1,10 +1,10 @@
 const db = require('./../../dbConfig.js')
 const verifySession = require('./../verify.js')
 
-const {logger} = require('./../../winston.js')
+const log = require('./../../util-log.js')
 
 module.exports = async function (call, callback) {
-	logger.info("Received request for listConfigs")
+	log.trace("Received request for listConfigs")
 	try{
 		const result = await verifySession(call)
 
@@ -19,7 +19,7 @@ module.exports = async function (call, callback) {
 		// logger.profile('testing')
 		// 
 		if(result.success){
-			logger.info('Session verified. Sending configs...')
+			log.trace('Session verified. Sending configs...')
 			const id = result.data.userid
 			const { rows: configs } = await db.getConfigs(id)
 			if(configs.length>0){
@@ -35,6 +35,6 @@ module.exports = async function (call, callback) {
 		
 	} catch (err) {
 		callback(new Error("Internal server error"));
-		logger.error('%o', err)
+		log.error(err)
 	}
 }

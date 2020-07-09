@@ -1,9 +1,9 @@
-const config = require('./../msdata/operation-svc/data/config/config.js')
+const config = require('./util-config.js')
 const { Pool } = require('pg');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-const connectionString = `postgresql://${config.db.user}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.database}`
+const connectionString = `postgresql://${config.config.db.user}:${config.config.db.password}@${config.config.db.host}:${config.config.db.port}/${config.config.db.database}`
 const pool = new Pool({
 	connectionString: isProduction ? process.env.DATABASE_URL : connectionString
 })

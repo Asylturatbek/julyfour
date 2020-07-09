@@ -2,9 +2,10 @@ const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt')
 var grpc = require('grpc');
 const db = require('./../../dbConfig.js')
+const log = require('./../../util-log.js')
 
 module.exports = async function(call, callback){
-
+	log.trace('Incoming request for authenticate...')
 	const {username, password} = call.request
 
 	try {
@@ -21,7 +22,7 @@ module.exports = async function(call, callback){
 				const session_key = uuidv4();
 				//db.insertSession
 				await db.insertSession(user.id, session_key)
-				
+				log.trace('successfullyy authenticated user with id of ' + user.id)
 				callback(null, {success:true, error:{code:null, data:null}, sessionKey:session_key})
 			} else {
 				callback(null, {success:false, error:{code:grpc.status.INVALID_ARGUMENT, data:'passwords do not match'}})
@@ -31,7 +32,7 @@ module.exports = async function(call, callback){
 		}
 	} catch (err) {
 		callback(null, {success:false, error:{code:grpc.status.INTERNAL, data:'internal server error'}})
-		console.error(err)
+		log.error(err)
 	}
 
 }

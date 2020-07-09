@@ -1,5 +1,10 @@
 const client = require('./client.js')
 
+
+/**
+ * the first parameter that it takes
+ * @type {string}
+ */
 const givenUsername = process.argv[2]
 const givenPassword = process.argv[3]
 

@@ -1,14 +1,14 @@
 const { usersInChat } = require('./handleStream.js')
-const {logger} = require('./../../winston.js')
+const log = require('./../../util-log.js')
 const grpc = require('grpc')
 
 module.exports = async function(call, callback){
-	logger.info('received request for handleChangeConfigStatus')
+	log.trace('received request for handleChangeConfigStatus')
 	try {
 			const {userId, isGlobal} = call.request
 			
 			if(userId !=='' && isGlobal !=='') {
-
+				log.trace('Sending message to listeners')
 				//will check if the change is global or not
 				if(isGlobal){
 					usersInChat.forEach(user => user.callFromStream.write({message:'Global configs have changed'}))
@@ -25,6 +25,6 @@ module.exports = async function(call, callback){
 
 	} catch(err) {
 		callback(new Error("Internal server error"));
-		logger.error('%o', err)
+		log.error('%o', err)
 	}
 }

@@ -1,10 +1,11 @@
 const db = require('./../dbConfig.js')
+const log = require('./../util-log.js')
 
 module.exports = async function(call) {
 	const sessionKey = call.metadata.get("sessionkey")[0];
 	
 	if(sessionKey){
-		console.log('in verify and has sessionkey')
+		log.trace('in verify and has sessionkey')
 		await db.deleteOldSessions()
 		const sessions = await db.getSessions(sessionKey) 
 		if(sessions.rows.length>0){

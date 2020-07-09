@@ -1,10 +1,10 @@
 const db = require('./../../dbConfig.js')
 const grpc = require('grpc')
-const {logger} = require('./../../winston.js')
+const log = require('./../../util-log.js')
 const {sendToEventsSvc} = require('./../sendToEvents-svc.js')
 
 module.exports = async function(call, callback) {
-	logger.info('received request for updateConfig')
+	log.trace('received request for updateConfig')
 	try {
 			const {id, configValue} = call.request
 			
@@ -12,7 +12,7 @@ module.exports = async function(call, callback) {
 				const {rows: configs} = await db.updateConfig(configValue, id)
 
 
-				logger.info('sending about change to events svs')
+				log.trace('sending about change to events svs')
 				sendToEventsSvc({userId: configs[0].userid, isGlobal: configs[0].isglobal})
 
 				//will check if the change is global or not
@@ -33,6 +33,6 @@ module.exports = async function(call, callback) {
 
 	} catch(err) {
 		callback(new Error("Internal server error"));
-		logger.error(err)
+		log.error(err)
 	}
 }

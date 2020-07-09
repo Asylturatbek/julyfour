@@ -16,4 +16,4 @@ RUN npm install
 COPY . .
 
 EXPOSE 60061
-CMD [ "node", "index.js" ]
+CMD [ "node", "app.js" ]

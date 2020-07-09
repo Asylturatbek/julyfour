@@ -1,13 +1,14 @@
 const verifySession = require('./../verify.js')
+const log = require('./../../util-log.js')
 
 let usersInChat = []
 
 const handleStream = async (call) => {
 	try{
-		console.log(`User has joined`)
+		log.trace(`User has joined`)
 
 		call.on('cancelled', () => {
-			console.log('one user has left')
+			log.trace('one user has left')
 			usersInChat = usersInChat.filter(user => user !== call)
 		})
 		const result = await verifySession(call)
