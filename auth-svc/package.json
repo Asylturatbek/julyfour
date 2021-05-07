@@ -23,7 +23,7 @@
     "path": "^0.12.7",
     "pg": "^8.2.1",
     "simple-node-logger": "^18.12.24",
-    "underscore": "^1.10.2",
+    "underscore": "^1.12.1",
     "uuid": "^8.2.0",
     "uuid-base62": "^0.1.0"
   }
